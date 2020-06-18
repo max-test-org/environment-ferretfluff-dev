@@ -1,0 +1,12 @@
+adminUser:
+  password: vault:ferretfluff/adminUser:password
+  username: admin
+dashboardUrl: https://dashboard.play-jxaas.live
+enableDocker: false
+pipelineUser:
+  email: arcalos-admin@googlegroups.com
+  token: vault:ferretfluff/pipelineUser:token
+  username: cb-cloud-native-ci-cd-play[bot]
+prow:
+  hmacToken: vault:ferretfluff/prow:hmacToken
+segmentWriteKey: vault:ferretfluff:segmentWriteKey

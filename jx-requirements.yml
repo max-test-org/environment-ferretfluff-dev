@@ -1,40 +1,107 @@
 autoUpdate:
   enabled: true
-  schedule: '0 0 * * *'
+  schedule: 0 0 * * *
+bootConfigURL: https://github.com/cloudbees/arcalos-boot-config.git
+buildPacks:
+  buildPackLibrary: {}
 cluster:
-  clusterName: ""
-  environmentGitOwner: ""
-  project: ""
+  azure: {}
+  chartRepository: http://bucketrepo/bucketrepo/charts/
+  clusterName: ferretfluff
+  environmentGitOwner: max-test-org
+  environmentGitPublic: true
+  externalDNSSAName: ferretfluff-dn
+  gitKind: github
+  gitName: github
+  gitPublic: true
+  gitServer: https://github.com
+  gke:
+    projectNumber: "862651910867"
+  kanikoSAName: ferretfluff-ko
+  namespace: jx
+  project: cbjx-ferretfluff
   provider: gke
-  zone: ""
-gitops: true
-githubApp:
-  enabled: false
-  url: ""
-  schedule: '0 0 * * *'
+  registry: gcr.io
+  vaultName: ferretfluff
+  vaultSAName: ferretfluff-vt
+  zone: us-central1-c
 environments:
-- key: dev
-- key: staging
-- key: production
+- ingress:
+    cloud_dns_secret_name: external-dns-gcp-sa
+    domain: cbjx-ferretfluff.play-jxaas.live
+    domainIssuerURL: https://jx-tenant-service-jx.mgmt.play-jxaas.live
+    externalDNS: true
+    namespaceSubDomain: -jx.
+    tls:
+      email: jenkins-x@cloudbees.com
+      enabled: true
+      production: false
+  key: dev
+  repository: environment-ferretfluff-dev
+- ingress:
+    domain: ""
+    externalDNS: false
+    namespaceSubDomain: ""
+    tls:
+      email: ""
+      enabled: false
+      production: false
+  key: staging
+  repository: environment-ferretfluff-staging
+- ingress:
+    domain: ""
+    externalDNS: false
+    namespaceSubDomain: ""
+    tls:
+      email: ""
+      enabled: false
+      production: false
+  key: production
+  repository: environment-ferretfluff-production
+githubApp:
+  enabled: true
+  schedule: 0 0 * * *
+  url: https://lighthouse-githubapp-jx.mgmt.play-jxaas.live
+gitops: true
 ingress:
-  domain: ""
+  cloud_dns_secret_name: external-dns-gcp-sa
+  domain: cbjx-ferretfluff.play-jxaas.live
+  domainIssuerURL: https://jx-tenant-service-jx.mgmt.play-jxaas.live
   externalDNS: true
+  namespaceSubDomain: -jx.
   tls:
     email: jenkins-x@cloudbees.com
     enabled: true
     production: false
 kaniko: true
+repository: bucketrepo
 secretStorage: vault
 storage:
+  backup:
+    enabled: true
+    url: gs://cbjx-ferretfluff-backup
   logs:
-    enabled: false
-    url: ""
+    enabled: true
+    url: gs://cbjx-ferretfluff-lts
   reports:
     enabled: false
     url: ""
   repository:
-    enabled: false
-    url: ""
+    enabled: true
+    url: gs://cbjx-ferretfluff-repository
+vault:
+  aws: {}
+  bucket: cbjx-ferretfluff-vault
+  key: ferretfluff-22ead9155803-crypto-key
+  keyring: ferretfluff-22ead9155803-keyring
+  name: ferretfluff
+  serviceAccount: ferretfluff-vt
 velero:
   namespace: velero
-webhook: prow
+  schedule: ""
+  serviceAccount: ferretfluff-vo
+  ttl: ""
+versionStream:
+  ref: v0.0.486
+  url: https://github.com/cloudbees/arcalos-jenkins-x-versions.git
+webhook: lighthouse
